@@ -24,8 +24,11 @@
             <Label x:Name="infoMessage" FontSize="{StaticResource Key=errorFont}" TextColor="{StaticResource Key=errorColor}" 
                Padding="30,10,30,10" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                />
-            <Label Text="ТЕКККСТ"/>
-            <Label Text="ТЕКККСТ"/>
+            
+            <Button x:Name="loginButton2" Text="Войти" Clicked="Login_Click" />
+            <Button x:Name="loginButton3" Text="Войти" Clicked="Login_Click" />
+            <Button x:Name="loginButton4" Text="Войти" Clicked="Login_Click" />
+            <Button x:Name="loginButton0" Text="Войти" Clicked="Login_Click" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

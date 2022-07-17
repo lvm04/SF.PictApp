@@ -1,12 +1,14 @@
 ﻿using SF.PictApp.Pages;
 using System;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
 
 namespace SF.PictApp
 {
     public partial class App : Application
     {
+        
         public App()
         {
             InitializeComponent();

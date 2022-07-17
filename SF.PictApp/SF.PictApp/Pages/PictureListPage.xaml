@@ -1,12 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SF.PictApp.Pages.PictureListPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Список картинок"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+             xmlns:local="clr-namespace:SF.PictApp.Pages"
+             x:Class="SF.PictApp.Pages.PictureListPage"
+             >
+
+    <NavigationPage.TitleView>
+        <Label x:Name="titleLabel" FontSize="14" TextColor="White" />
+    </NavigationPage.TitleView>
+
+    <StackLayout Padding="10,30">
+        <ListView x:Name="pictureList"
+             HasUnevenRows="True"
+             ItemsSource="{Binding Pictures}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell
+                       ImageSource="{Binding Image}"
+                       Text="{Binding Name}"
+                       Detail="{Binding Description}"
+                       TextColor="DodgerBlue"
+                       DetailColor="Gray"
+                   />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout Orientation="Horizontal" Padding="30,10,30,15" HorizontalOptions="StartAndExpand" >
+            <Button Clicked="OpenPicture_Clicked"  Text="Открыть" />
+            <Button Clicked="RemovePicture_Clicked" Text="Удалить" />
         </StackLayout>
-    </ContentPage.Content>
+    </StackLayout>
 </ContentPage>

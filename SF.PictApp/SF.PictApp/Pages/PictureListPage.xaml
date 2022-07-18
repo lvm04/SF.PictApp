@@ -12,7 +12,10 @@
     <StackLayout Padding="10,30">
         <ListView x:Name="pictureList"
              HasUnevenRows="True"
-             ItemsSource="{Binding Pictures}">
+             ItemsSource="{Binding Pictures}"
+             RowHeight="60"
+             CachingStrategy="RecycleElement"
+             ItemSelected="pictureList_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell

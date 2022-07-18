@@ -1,6 +1,7 @@
 ﻿using SF.PictApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,9 @@ namespace SF.PictApp.Pages
     public partial class PictureListPage : ContentPage
     {
         public static string FolderPath { get; set; }
-        public List<Picture> Pictures { get; set; }
+        public ObservableCollection<Picture> Pictures { get; set; }
+
+        Picture SelectedPicture;
 
         public PictureListPage(string path)
         {
@@ -28,8 +31,8 @@ namespace SF.PictApp.Pages
        
         protected override void OnAppearing()
         {
-            //DisplayAlert(null, Directory.GetFiles(folderPath).Length.ToString(), "OK");
-            Pictures = Directory.GetFiles(FolderPath)
+            // Создаем коллекцию картинок
+            var pictures = Directory.GetFiles(FolderPath)
                                 .Select(f => 
                                     new Picture { 
                                         Name = Path.GetFileName(f), 
@@ -37,6 +40,8 @@ namespace SF.PictApp.Pages
                                         Image = ImageSource.FromStream(() => new MemoryStream(GetImageBytes(f)))
                                     })
                                 .ToList();
+
+            Pictures = new ObservableCollection<Picture>(pictures);
             pictureList.ItemsSource = Pictures;
             pictureList.SelectedItem = null;        // снимаем выделение
 
@@ -52,13 +57,25 @@ namespace SF.PictApp.Pages
             //byte[] fileBytes = await ImageExtensions.Resize(path, 1600);        // Уменьшаем размер фото чтобы не нагружать сеть
         }
 
+        private void pictureList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            SelectedPicture = (Picture)e.SelectedItem;
+        }
+
         private async void OpenPicture_Clicked(object sender, EventArgs e)
         {
+            if (SelectedPicture == null)
+            {
+                await DisplayAlert(null, $"Пожалуйста, выберите картинку!", "OK");
+                return;
+            }
 
+            await Navigation.PushAsync(new PictureViewPage(SelectedPicture));
         }
-        private async void RemovePicture_Clicked(object sender, EventArgs e)
+        private void RemovePicture_Clicked(object sender, EventArgs e)
         {
-
+            File.Delete(Path.Combine(FolderPath, SelectedPicture.Name));
+            Pictures.Remove(SelectedPicture);
         }
 
     }
